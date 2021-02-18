@@ -256,6 +256,11 @@ async def saveRecovery(ctx):
     await ctx.send(finalText)
     #await ctx.send(n.printRecovery(serversNations[ctx.author.guild.name]))
 
+@comands.has_role('Independant Corporations')
+@bot.command()
+async def testRole(ctx,*,name):
+    countryRole = get(server.roles,name=name)
+    await countryRole.edit(hoist=true)
 
 
 bot.run(TOKEN)
