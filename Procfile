@@ -1,1 +1,1 @@
-worker: python bot/NationsOfTheNortheastBot.py
+worker: python bot/DiscordNationsbot.py
