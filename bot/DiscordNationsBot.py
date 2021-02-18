@@ -11,7 +11,7 @@ import SearchFunctions as s
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='.',intents=intents)
-TOKEN = os.getenv('DISCORD_TOKEN')
+#TOKEN = os.getenv('DISCORD_TOKEN')
 
 counter = {}
 nations = []
@@ -22,7 +22,6 @@ import time
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
-    # await channel.send('**THE NUKES WILL SOON BE DROPPED**')
     print(bot.guilds)
 
 
@@ -78,7 +77,7 @@ async def createNation(ctx,*,name):
         await category.set_permissions(countryRole, read_messages=True, send_messages=True,read_message_history=True)
         await category.set_permissions(get(server.roles,name="@everyone"),read_messages = False)
         await category.set_permissions(get(server.roles,name="National Leader"),manage_channels=True,manage_permissions=True,manage_messages=True)
-
+        
 
     else:
         await ctx.send("You are already a member of a Nation, leave or dissolve the nation to found a new one.")
@@ -254,8 +253,12 @@ async def saveRecovery(ctx):
     await ctx.send(finalText)
     #await ctx.send(n.printRecovery(serversNations[ctx.author.guild.name]))
 
+@comands.has_role('Independant Corporations')
+@bot.command()
+async def testRole(ctx,*,name):
+    countryRole = get(server.roles,name=name)
+    await countryRole.edit(hoist=true)
 
-
-bot.run(TOKEN)
-
+#bot.run(TOKEN)
+bot.run('ODExODQyMjQwNzE1OTQ4MDMz.YC4FAQ.4USm7LeQ0dHywkWxAfL-8fiop28')
 
