@@ -51,13 +51,10 @@ async def createNation(ctx,*,name):
         new_nation = n.Nation(name,1,ctx.author.name,1)
         new_nation.citizens=[user.name]
         new_nation.money=0
-        print("check 1",serversNations)
+
         nationslist = serversNations[server.name]
         nationslist.append(new_nation)
-        print("check list",nationslist)
         serversNations[server.name] = nationslist
-
-        print(serversNations["The Nations of the Northeast"])
         #serversNations[server.name] = nationslist.append(newNation)
         await ctx.send("The Nation of **{0}** has been founded by {1}!!!".format(name,ctx.author.name))
         role = get(server.roles, name="National Leader")
@@ -90,7 +87,7 @@ async def createNation(ctx,*,name):
 # doesn not remove "citizen"and "representtive" role from all other citizen
 @bot.command()
 async def dissolveNation(ctx):
-    print('dissolving nation')
+    print('{0} requested to dissolve nation'.format(ctx.author.name))
     user = ctx.message.author
     server = user.guild
     roles = user.roles
@@ -141,7 +138,7 @@ async def renameNation(ctx,*,name):
             index+=1
         await category.edit(name=name)
         n.debugNationsList(serversNations[server.name])
-    print('editing name of nation Im a part of')
+    print('{0} changed name of nation they were part of')
 
 #wishlist
 @bot.command()
@@ -149,6 +146,7 @@ async def changeLeader(ctx,member1:discord.Member):
     user = ctx.author
     server = ctx.author.guild
     roles =user.roles
+    print("{0} requested to change the leader of his nation with {1}".format(user.name,member1.name))
     if s.isPartOfCountry(server.roles, serversNations[server.name]):
         members = server.members
         if s.memberInList(member1.name,members):
@@ -167,13 +165,14 @@ async def changeLeader(ctx,member1:discord.Member):
                 await ctx.send("Member is not part of your nation")
         else:
             await ctx.send("Member is not found")
-    print('changing leader. This role is only for people with leader role')
+    #print('changing leader. This role is only for people with leader role')
 
 
 @bot.command()
 async def joinNation(ctx,*,name):
     user = ctx.author
     server=user.guild
+    print("{0} joined {1}".format(user.name,name))
     try:
         role = get(server.roles, name=name)
         role2 = get(server.roles, name="Citizen")
@@ -185,12 +184,11 @@ async def joinNation(ctx,*,name):
     except:
         await ctx.send("Failed to join {0}".format(name))
 
-
-    print('will join nation')
+    print('Sucessfully joined')
 
 @bot.command()
 async def leaveNation(ctx):
-    print('will leave nation')
+    print('{0} requested to leave their nation'.format(ctx.author.name))
     user = ctx.author
     server = user.guild
 
@@ -245,15 +243,16 @@ async def recover(ctx,*,recovery=""):
                 print("sucessfully recovered nations")
     await ctx.send("Successfully recovered nations data")
 
+
 @bot.command()
-async def printRecoveryProgram(ctx):
+async def saveRecovery(ctx):
+    print("{0} requested recovery data".format(ctx.author.name))
     finalText = ""
     for server in serversNations:
         text = n.printRecovery(serversNations[server])
         finalText+= server+"{"+text+"}"
     await ctx.send(finalText)
     #await ctx.send(n.printRecovery(serversNations[ctx.author.guild.name]))
-
 
 
 

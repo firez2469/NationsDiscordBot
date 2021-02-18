@@ -1,7 +1,6 @@
 import discord
 def roleInList(roleName, listOfRoles):
     for r in listOfRoles:
-        print(r.name)
         if roleName==r.name:
             return True
     return False

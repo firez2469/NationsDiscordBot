@@ -48,7 +48,6 @@ def readRecovery(file):
     listOfNations = []
     for line in file.split('|'):
         if len(line)>0:
-            print("Line",line)
             rest1 = line.split(':')[1]
             name = rest1.split(',')[0]
             influence = int(rest1.split(',')[1])
@@ -71,7 +70,6 @@ def printRecovery(nations):
 
         money = nation.money
         final_message += "{0},{1},{2},{3},{4}|".format(name,influence,leader,channelCount,money)
-    print(final_message)
     return final_message
 
 
