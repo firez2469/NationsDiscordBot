@@ -152,10 +152,11 @@ async def changeLeader(ctx,member1:discord.Member):
         members = server.members
         if s.memberInList(member1.name,members):
             nationName = s.findNationName(server.roles, serversNations[server.name])
+            print("Found nation: {0}".format(nationName)
             role = get(server.roles, name="National Leader")
-            await user.remove_roles(role)
             #m = s.findMemberInMembersList(member1.name,members)
             if s.memberInNation(member1,nationName):
+                await user.remove_roles(role)
                 await member1.add_roles(role)
                 nat = s.findNationByName(nationName,serversNations[server.name])
                 newNation = n.Nation(nat.name,nat.influence, ctx.author.name, nat.numberOfChannels)
