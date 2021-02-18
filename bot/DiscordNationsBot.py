@@ -257,12 +257,16 @@ async def testRole(ctx,*,name):
 async def addRepresentative(ctx,*,member1:discord.Member):
     repRole = get(ctx.guild.roles,name="National Representative")
     await member1.add_roles(repRole)
+    await ctx.send("New Role assigned")
+    print("{0} requested representative role for {1}".format(ctx.author.name,member1.name))
 
 @commands.has_role('National Leader')
 @bot.command()
 async def removeRepresentative(ctx,*,member1:discord.Member):
     repRole = get(ctx.guild.roles,name="National Representative")
     await member1.remove_roles(repRole)
+    await ctx.send("Representative role removed from {0}".format(member1.name))
+    print("Representative role removed from {0}".format(member1.name))
 
 bot.run(TOKEN)
 
