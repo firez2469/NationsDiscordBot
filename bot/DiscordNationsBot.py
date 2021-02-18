@@ -148,7 +148,7 @@ async def changeLeader(ctx,member1:discord.Member):
     server = ctx.author.guild
     roles =user.roles
     print("{0} requested to change the leader of his nation with {1}".format(user.name,member1.name))
-    if s.isPartOfCountry(server.roles, serversNations[server.name]):
+    if s.isPartOfCountry(user.roles, serversNations[server.name]):
         members = server.members
         if s.memberInList(member1.name,members):
             nationName = s.findNationName(member1.roles, serversNations[server.name])
@@ -195,8 +195,8 @@ async def leaveNation(ctx):
     server = user.guild
 
     try:
-        if s.isPartOfCountry(server.roles,serversNations[server.name]):
-            nationName = s.findNationName(server.roles,serversNations[server.name])
+        if s.isPartOfCountry(user.roles,serversNations[server.name]):
+            nationName = s.findNationName(user.roles,serversNations[server.name])
             role = get(server.roles, name=nationName)
             roleCitizen = get(server.roles,name="Citizen")
             if s.roleInList("National Leader", user.roles):
