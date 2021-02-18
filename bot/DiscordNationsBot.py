@@ -24,7 +24,7 @@ async def on_ready():
 
     print(bot.guilds)
 
-@commands.has_role('Independant Corporations')
+@commands.has_role('Independent Corporations')
 @bot.command()
 async def FullSetUp(ctx):
     serversNations[ctx.message.guild.name]=[]
@@ -34,7 +34,7 @@ async def FullSetUp(ctx):
     rolesForServer = ["Citizen","National Leader","National Representative","Independant Contractors","World Congress Host"]
     for role in rolesForServer:
         await server.create_role(name=role)
-@commands.has_role('Independant Corporations')
+@commands.has_role('Independent Corporations')
 @bot.command()
 async def PartialSetup(ctx):
     serversNations[ctx.message.guild.name] = [n.Nation("nonetype1",0,"nuuuuuul",0)]
@@ -211,7 +211,7 @@ async def leaveNation(ctx):
         await bot.run('Insufficient permissions for bot')
 
 #will eventually need a better alternative to store all nations data off of discord itself
-@commands.has_role('Independant Corporations')
+@commands.has_role('Independent Corporations')
 @bot.command()
 async def recover(ctx,*,recovery=""):
     server = ctx.message.guild
@@ -244,7 +244,7 @@ async def recover(ctx,*,recovery=""):
                 print("sucessfully recovered nations")
     await ctx.send("Successfully recovered nations data")
 
-@commands.has_role('Independant Corporations')
+@commands.has_role('Independent Corporations')
 @bot.command()
 async def saveRecovery(ctx):
     print("{0} requested recovery data".format(ctx.author.name))
