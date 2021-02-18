@@ -180,11 +180,13 @@ async def joinNation(ctx,*,name):
         role2 = get(server.roles, name="Citizen")
         await ctx.author.add_roles(role)
         await ctx.author.add_roles(role2)
-        index1 = s.findNationIndex(name, serversNations[server.name])
-        serversNations[server.name][index1].influence += 1
-        serversNations[server.name][index1].money+=1
     except:
         await ctx.send("Failed to join {0}".format(name))
+        
+    index1 = s.findNationIndex(name, serversNations[server.name])
+    serversNations[server.name][index1].influence += 1
+    serversNations[server.name][index1].money+=1
+    
 
     print('Sucessfully joined')
 
