@@ -1,1 +1,1 @@
-worker: python bot/DiscordNationsbot.py
+worker: python bot/DiscordNationsBot.py
