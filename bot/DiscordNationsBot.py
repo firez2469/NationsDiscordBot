@@ -11,7 +11,7 @@ import SearchFunctions as s
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='.',intents=intents)
-#TOKEN = os.getenv('DISCORD_TOKEN')
+TOKEN = os.getenv('DISCORD_TOKEN')
 
 counter = {}
 nations = []
@@ -24,7 +24,7 @@ async def on_ready():
 
     print(bot.guilds)
 
-
+@commands.has_role('Independant Corporations')
 @bot.command()
 async def FullSetUp(ctx):
     serversNations[ctx.message.guild.name]=[]
@@ -34,6 +34,7 @@ async def FullSetUp(ctx):
     rolesForServer = ["Citizen","National Leader","National Representative","Independant Contractors","World Congress Host"]
     for role in rolesForServer:
         await server.create_role(name=role)
+@commands.has_role('Independant Corporations')
 @bot.command()
 async def PartialSetup(ctx):
     serversNations[ctx.message.guild.name] = [n.Nation("nonetype1",0,"nuuuuuul",0)]
@@ -210,6 +211,7 @@ async def leaveNation(ctx):
         await bot.run('Insufficient permissions for bot')
 
 #will eventually need a better alternative to store all nations data off of discord itself
+@commands.has_role('Independant Corporations')
 @bot.command()
 async def recover(ctx,*,recovery=""):
     server = ctx.message.guild
@@ -242,7 +244,7 @@ async def recover(ctx,*,recovery=""):
                 print("sucessfully recovered nations")
     await ctx.send("Successfully recovered nations data")
 
-
+@commands.has_role('Independant Corporations')
 @bot.command()
 async def saveRecovery(ctx):
     print("{0} requested recovery data".format(ctx.author.name))
@@ -259,6 +261,6 @@ async def testRole(ctx,*,name):
     countryRole = get(server.roles,name=name)
     await countryRole.edit(hoist=true)
 
-#bot.run(TOKEN)
-bot.run('ODExODQyMjQwNzE1OTQ4MDMz.YC4FAQ.4USm7LeQ0dHywkWxAfL-8fiop28')
+bot.run(TOKEN)
+
 
