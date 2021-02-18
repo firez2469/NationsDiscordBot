@@ -25,7 +25,7 @@ async def on_ready():
     # await channel.send('**THE NUKES WILL SOON BE DROPPED**')
     print(bot.guilds)
 
-@commands.has_role('Independant Corporations')
+@commands.has_role('Independent Corporations')
 @bot.command()
 async def FullSetUp(ctx):
     serversNations[ctx.message.guild.name]=[]
@@ -35,7 +35,7 @@ async def FullSetUp(ctx):
     rolesForServer = ["Citizen","National Leader","National Representative","Independant Contractors","World Congress Host"]
     for role in rolesForServer:
         await server.create_role(name=role)
-@commands.has_role('Independant Corporations')
+@commands.has_role('Independent Corporations')
 @bot.command()
 async def PartialSetup(ctx):
     serversNations[ctx.message.guild.name] = [n.Nation("nonetype1",0,"nuuuuuul",0)]
@@ -79,7 +79,7 @@ async def createNation(ctx,*,name):
         await category.set_permissions(countryRole, read_messages=True, send_messages=True,read_message_history=True)
         await category.set_permissions(get(server.roles,name="@everyone"),read_messages = False)
         await category.set_permissions(get(server.roles,name="National Leader"),manage_channels=True,manage_permissions=True,manage_messages=True)
-
+        await countryRole.edit(hoist=True)
 
     else:
         await ctx.send("You are already a member of a Nation, leave or dissolve the nation to found a new one.")
@@ -212,22 +212,13 @@ async def leaveNation(ctx):
         await bot.run('Insufficient permissions for bot')
 
 #will eventually need a better alternative to store all nations data off of discord itself
-@commands.has_role('Independant Corporations')
+@commands.has_role('Independent Corporations')
 @bot.command()
 async def recover(ctx,*,recovery=""):
     server = ctx.message.guild
     channels = server.channels
     channelFound = False
-    #for channel in channels:
-     #   if channel.name == "channel-recovery" and not channelFound:
-      #      messages = await channel.history(limit=200).flatten()
-       #     recoverdListOfNations = []
-        #    for message in messages:
-         #       recoverdListOfNations+=n.readRecovery(message.content)
-          #  channelFound=True
-           # serversNations[server.name]=recoverdListOfNations
-   # if not channelFound:
-       # await ctx.send("No channel recovery channel found")
+
     if len(recovery)>0:
         servers1 = recovery.split('}')
         if len(servers1)>0:
@@ -245,7 +236,7 @@ async def recover(ctx,*,recovery=""):
                 print("sucessfully recovered nations")
     await ctx.send("Successfully recovered nations data")
 
-@commands.has_role('Independant Corporations')
+@commands.has_role('Independent Corporations')
 @bot.command()
 async def saveRecovery(ctx):
     print("{0} requested recovery data".format(ctx.author.name))
@@ -256,12 +247,22 @@ async def saveRecovery(ctx):
     await ctx.send(finalText)
     #await ctx.send(n.printRecovery(serversNations[ctx.author.guild.name]))
 
-@comands.has_role('Independant Corporations')
+@commands.has_role('Independent Corporations')
 @bot.command()
 async def testRole(ctx,*,name):
-    countryRole = get(server.roles,name=name)
-    await countryRole.edit(hoist=true)
+    countryRole = get(ctx.guild.roles,name=name)
+    await countryRole.edit(hoist=True)
+@commands.has_role('National Leader')
+@bot.command()
+async def addRepresentative(ctx,*,member1:discord.Member):
+    repRole = get(ctx.guild.roles,name="National Representative")
+    await member1.add_roles(repRole)
 
+@commands.has_role('National Leader')
+@bot.command()
+async def removeRepresentative(ctx,*,member1:discord.Member):
+    repRole = get(ctx.guild.roles,name="National Representative")
+    await member1.remove_roles(repRole)
 
 bot.run(TOKEN)
 
