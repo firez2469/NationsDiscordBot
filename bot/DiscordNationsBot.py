@@ -299,7 +299,7 @@ async def resetChannelPerms(ctx,category:discord.CategoryChannel):
 async def nations(ctx):
     message ="**List of Nations:**\n"
     for nation in serversNations[ctx.guild.name]:
-        if not nation.name == "noneType1":
+        if not nation.name == "nonetype1":
             message+= "{0}\n".format(nation.name)
     await ctx.send(message)
     print("List of nations requested by {0}".format(ctx.author.name))
