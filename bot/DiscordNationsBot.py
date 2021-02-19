@@ -299,7 +299,8 @@ async def stats(ctx,*,nationName):
 async def nations(ctx):
     message ="**List of Nations:**\n"
     for nation in serversNations[ctx.guild.name]:
-        message+= "{0}".format(nation.name)
+        if not nation.name == "nonetype1":
+            message+= "{0}\n".format(nation.name)
     await ctx.send(message)
     print("List of nations requested by {0}".format(ctx.author.name))
 
