@@ -258,7 +258,7 @@ async def testRole(ctx,*,name):
 @commands.has_role('National Leader')
 @bot.command()
 async def addRepresentative(ctx,*,member1:discord.Member):
-    if(s.has_role(member1,s.findNationName(member1.roles,serversNations[ctx.guild.name]))):
+    if(s.has_role(member1,s.findNationName(ctx.author.roles,serversNations[ctx.guild.name]))):
         repRole = get(ctx.guild.roles,name="National Representative")
         await member1.add_roles(repRole)
         await ctx.send("New Role assigned")
@@ -288,13 +288,13 @@ async def stats(ctx,*,nationName):
             await ctx.send(message)
     print("Nation stats requested by {0} for {1}".format(ctx.author.name,nationName))
 
-@commands.has_role('National Leader')
-@bot.command()
-async def resetChannelPerms(ctx,category:discord.CategoryChannel):
-    for channel in category.channels:
-        leaderRole = get(ctx.guild.roles,name="National Leader")
-        await category.set_permissions(read_messages=True, send_messages=True,read_message_history=True,mange_channel=True,manage_permissions=True)
-    print("Channel reset requested by {0}".format(ctx.author.name))
+#@commands.has_role('National Leader')
+#@bot.command()
+#async def resetChannelPerms(ctx,category:discord.CategoryChannel):
+#    for channel in category.channels:
+#        leaderRole = get(ctx.guild.roles,name="National Leader")
+#        await category.set_permissions(read_messages=True, send_messages=True,read_message_history=True,mange_channel=True,manage_permissions=True)
+#    print("Channel reset requested by {0}".format(ctx.author.name))
 @bot.command()
 async def nations(ctx):
     message ="**List of Nations:**\n"
