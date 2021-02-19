@@ -277,7 +277,7 @@ async def removeRepresentative(ctx,*,member1:discord.Member):
         print("Representative role removed from {0}".format(member1.name))
     else:
         print("{0} failed to remove representative role from {1}".format(ctx.author.name,member1.name))
-        await ctx.send("Failed to remove representation role from {1}".format(memebr1.name))
+        await ctx.send("Failed to remove representation role from {1}".format(member1.name))
 
 @commands.has_role('Citizen')
 @bot.command()
@@ -286,6 +286,7 @@ async def stats(ctx,*,nationName):
         if nation.name==nationName:
             message = "**{0} stats**\n Influence {1}\n Leader {2}".format(nation.name,nation.influence,nation.leaderUser)
             await ctx.send(message)
+    print("Nation stats requested by {0} for {1}".format(ctx.author.name,nationName))
 
 @commands.has_role('National Leader')
 @bot.command()
@@ -293,6 +294,15 @@ async def resetChannelPerms(ctx,category:discord.CategoryChannel):
     for channel in category.channels:
         leaderRole = get(ctx.guild.roles,name="National Leader")
         await category.set_permissions(read_messages=True, send_messages=True,read_message_history=True,mange_channel=True,manage_permissions=True)
+    print("Channel reset requested by {0}".format(ctx.author.name))
+@bot.command()
+async def nations(ctx):
+    message ="**List of Nations:**\n"
+    for nation in serversNations[ctx.guild.name]:
+        message+= "{0}".format(nation.name)
+    await ctx.send(message)
+    print("List of nations requested by {0}".format(ctx.author.name))
+
 
 bot.run(TOKEN)
 
