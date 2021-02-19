@@ -55,8 +55,20 @@ def memberInNation(member,nationName):
         if role.name==nationName:
             return True
     return False
+def userNation(member,nationName,nationsList):
+    if(memberInNation(member,nationName)):
+        for nation in nationsList:
+            if nation.name==nationName:
+                return nation
+    
+            
 
 def findNationIndex(name,nationsList):
     for i in range(len(nationsList)):
         if name == nationsList[i].name:
             return i
+def has_role(member,roleName):
+    for mRole in member.roles:
+        if roleName==mRole:
+            return True
+    return False

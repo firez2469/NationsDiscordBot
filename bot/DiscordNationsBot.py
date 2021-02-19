@@ -258,18 +258,41 @@ async def testRole(ctx,*,name):
 @commands.has_role('National Leader')
 @bot.command()
 async def addRepresentative(ctx,*,member1:discord.Member):
-    repRole = get(ctx.guild.roles,name="National Representative")
-    await member1.add_roles(repRole)
-    await ctx.send("New Role assigned")
-    print("{0} requested representative role for {1}".format(ctx.author.name,member1.name))
+    if(s.has_role(member1,s.findNationName(member1.roles,serversNations[ctx.guild.name]))):
+        repRole = get(ctx.guild.roles,name="National Representative")
+        await member1.add_roles(repRole)
+        await ctx.send("New Role assigned")
+        print("{0} requested representative role for {1}".format(ctx.author.name,member1.name))
+    else:
+        print("{0} failed to add representative".format(ctx.author.name))
+        await ctx.send("The member you selected is not a Citizen of your nation")
 
 @commands.has_role('National Leader')
 @bot.command()
 async def removeRepresentative(ctx,*,member1:discord.Member):
-    repRole = get(ctx.guild.roles,name="National Representative")
-    await member1.remove_roles(repRole)
-    await ctx.send("Representative role removed from {0}".format(member1.name))
-    print("Representative role removed from {0}".format(member1.name))
+    if s.has_role(member1,"National Representative"):
+        repRole = get(ctx.guild.roles,name="National Representative")
+        await member1.remove_roles(repRole)
+        await ctx.send("Representative role removed from {0}".format(member1.name))
+        print("Representative role removed from {0}".format(member1.name))
+    else:
+        print("{0} failed to remove representative role from {1}".format(ctx.author.name,member1.name))
+        await ctx.send("Failed to remove representation role from {1}".format(memebr1.name))
+
+@commands.has_role('Citizen')
+@bot.command()
+async def stats(ctx,*,nationName):
+    for nation in serversNations[ctx.guild.name]:
+        if nation.name==nationName:
+            message = "**{0} stats**\n Influence {1}\n Leader {2}".format(nation.name,nation.influnce,nation.leaderUser)
+            await ctx.send(message)
+
+@commands.has_role('National Leader')
+@bot.command()
+async def resetChannelPerms(ctx,category:discord.CategoryChannel):
+    for channel in category.channels:
+        leaderRole = get(ctx.guild.roles,name="National Leader")
+        await category.set_permissions(read_messages=True, send_messages=True,read_message_history=True,mange_channel=True,manage_permissions=True)
 
 bot.run(TOKEN)
 
