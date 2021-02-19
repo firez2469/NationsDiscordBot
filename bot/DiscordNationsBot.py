@@ -258,14 +258,14 @@ async def testRole(ctx,*,name):
 @commands.has_role('National Leader')
 @bot.command()
 async def addRepresentative(ctx,*,member1:discord.Member):
-    if(s.has_role(member1,s.findNationName(ctx.author.roles,serversNations[ctx.guild.name]))):
-        repRole = get(ctx.guild.roles,name="National Representative")
-        await member1.add_roles(repRole)
-        await ctx.send("New Role assigned")
-        print("{0} requested representative role for {1}".format(ctx.author.name,member1.name))
-    else:
-        print("{0} failed to add representative".format(ctx.author.name))
-        await ctx.send("The member you selected is not a Citizen of your nation")
+    #if(s.has_role(member1,s.findNationName(ctx.author.roles,serversNations[ctx.guild.name]))):
+    repRole = get(ctx.guild.roles,name="National Representative")
+    await member1.add_roles(repRole)
+    await ctx.send("New Role assigned")
+    print("{0} requested representative role for {1}".format(ctx.author.name,member1.name))
+   # else:
+        #print("{0} failed to add representative".format(ctx.author.name))
+        #await ctx.send("The member you selected is not a Citizen of your nation")
 
 @commands.has_role('National Leader')
 @bot.command()
