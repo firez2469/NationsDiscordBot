@@ -284,7 +284,7 @@ async def removeRepresentative(ctx,*,member1:discord.Member):
 async def stats(ctx,*,nationName):
     for nation in serversNations[ctx.guild.name]:
         if nation.name==nationName:
-            message = "**{0} stats**\n Influence {1}\n Leader {2}".format(nation.name,nation.influnce,nation.leaderUser)
+            message = "**{0} stats**\n Influence {1}\n Leader {2}".format(nation.name,nation.influence,nation.leaderUser)
             await ctx.send(message)
 
 @commands.has_role('National Leader')
