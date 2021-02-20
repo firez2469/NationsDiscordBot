@@ -8,6 +8,7 @@ import asyncio
 import random
 import DiscordNations as n
 import SearchFunctions as s
+import random
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='.',intents=intents)
@@ -115,7 +116,13 @@ async def dissolveNation(ctx):
             await channel.delete()
         await category.delete()
         index = s.findNationIndex(role,serversNations[server.name])
+        atWarWithList = serversNations[server.name][index].atWarWith
+        for nationName in atWarWithList:
+            index = s.findNationIndex(nationName,serversNations[server.name])
+            serversNations[server.name][index].atWarWith.remove(role)
+
         serversNations[server.name].pop(index)
+
 
 
 @bot.command()
@@ -139,7 +146,7 @@ async def renameNation(ctx,*,name):
             index+=1
         await category.edit(name=name)
         n.debugNationsList(serversNations[server.name])
-    print('{0} changed name of nation they were part of')
+    print('{0} changed name of nation they were part of to {1}'.format(nationName,name))
 
 #wishlist
 @bot.command()
@@ -184,7 +191,7 @@ async def joinNation(ctx,*,name):
         await ctx.send("Failed to join {0}".format(name))
         
     index1 = s.findNationIndex(name, serversNations[server.name])
-    #serversNations[server.name][index1].influence += 1
+    serversNations[server.name][index1].influence += 1
     
 
     print('Sucessfully joined')
@@ -208,6 +215,8 @@ async def leaveNation(ctx):
             else:
                 await user.remove_roles(role)
                 await user.remove_roles(roleCitizen)
+                index1 = s.findNationIndex(nationName,serversNations[server.name])
+                serversNations[serversNations][index1].influence-= 1
         else:
             await bot.run("You are not part of a nation")
     except:
@@ -283,7 +292,10 @@ async def removeRepresentative(ctx,*,member1:discord.Member):
 async def stats(ctx,*,nationName):
     for nation in serversNations[ctx.guild.name]:
         if nation.name==nationName:
-            message = "**{0} stats**\n Influence {1}\n Leader {2}".format(nation.name,nation.influence,nation.leaderUser)
+            message = "**{0} stats**\n " \
+                      "Influence {1}\n " \
+                      "Leader {2}\n Army {3}\n" \
+                      " At War with: {4}".format(nation.name,nation.influence,nation.leaderUser,nation.armySize,n.formatNationsAtWarWith(nation.atWarWith))
             await ctx.send(message)
     print("Nation stats requested by {0} for {1}".format(ctx.author.name,nationName))
 
@@ -302,7 +314,34 @@ async def nations(ctx):
             message+= "{0}\n".format(nation.name)
     await ctx.send(message)
     print("List of nations requested by {0}".format(ctx.author.name))
+@commands.has_role('National Leader')
+@bot.command()
+async def buildArmy(ctx):
+    server = ctx.guild
+    nationName = s.findNationName(ctx.author.roles,serversNations[server.name])
+    index1 = s.findNationIndex(nationName,serversNations[server.name])
+    strength = (random.random()*0.6)+.8
+    serversNations[server.name][index1].armySize += strength
+    serversNations[server.name][index1].influence -=1
+    await ctx.send("The army of {0} has been added the strength of {1}!".format(nationName,strength))
+    print("{0} built their army for {1} with strength of {2}".format(ctx.author.name,nationName,strength))
 
+@commands.has_role('Naitonal Leader')
+@bot.command()
+async def DeclareWar(ctx,nation:discord.Role):
+    print('{0} declared war on {1}'.format(ctx.author.name,nation.name))
+    server = ctx.guild
+    thisNationName = s.findNationName(ctx.author.roles,serversNations[server.name])
+    thisNation = s.findNationByName(thisNationName,serversNations[server.name])
+    thatNation = s.findNationByName(nation.name,serversNations[server.name])
+    if thisNationName==thatNation.name:
+        await ctx.send("You can't declare war on yourself")
+    else:
+        await ctx.send("**{0} has declared war on {1}!!!**".format(thisNationName,thatNation.name))
+        thisIndex = s.findNationIndex(thisNationName,serversNations[server.name])
+        thatIndex = s.findNationIndex(thatNation.naem,serversNations[server.name])
+        serversNations[server.name][thisIndex].atWarWith.append(nation.name)
+        serversNations[server.name][thatIndex].atWarWith.append(thisNationName)
 
 bot.run(TOKEN)
 

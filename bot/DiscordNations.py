@@ -8,7 +8,9 @@ class Nation:
         self.citizens = []
         self.armySize = 0
         self.money = 0
+        self.atWarWith = []
         #may not use illigal citizens rn
+        #list of strings of nation names
         self.illegalCitizens=[]
     def addInfluence(self,amount=1):
         self.influence+=amount
@@ -54,9 +56,12 @@ def readRecovery(file):
             leaderName = rest1.split(',')[2]
             numberOfChannels = int(rest1.split(',')[3])
             money = rest1.split(',')[4]
+            armySize = int(rest1.split(',')[5])
+            atWarWith = interpretAtWarWith(rest1.split(',')[6])
             nation = Nation(name,influence,leaderName,numberOfChannels)
             nation.money=money
-
+            nation.armySize=armySize
+            nation.atWarWith=atWarWith
             listOfNations.append(nation)
     return listOfNations
 
@@ -69,10 +74,28 @@ def printRecovery(nations):
         channelCount = nation.numberOfChannels
 
         money = nation.money
-        final_message += "{0},{1},{2},{3},{4}|".format(name,influence,leader,channelCount,money)
+        armySize = nation.armySize
+        atWarWith = formatNationsAtWarWith(nation.atWarWith)
+        final_message += "{0},{1},{2},{3},{4},{5}|".format(name,influence,leader,channelCount,money,armySize,atWarWith)
     return final_message
 
 
 def debugNationsList(nationsList):
     for nation in nationsList:
         print(nation.name)
+
+def formatNationsAtWarWith(warList):
+    final_message = ""
+    if len(warList)>0:
+        for nation in warList:
+            final_message+= "{0},".format(nation)
+    else:
+        final_message = "none"
+    return  final_message
+
+def interpretAtWarWith(formattedList):
+    final_list =[]
+    for nationName in formattedList.split(','):
+        if(len(nationName)>0):
+            final_list.append(nationName)
+    return final_list

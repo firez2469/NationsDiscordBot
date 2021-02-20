@@ -19,12 +19,14 @@ def isPartOfCountry(roles,nations):
                 return True
     return False
 
+#used to find the nation name a person is a part of
 def findNationName(roles,nations):
     for role in roles:
         for nation in nations:
             if role.name==nation.name:
                 return nation.name
     return ""
+#used to find the nation object
 def findNationByName(name,nations):
     for nation in nations:
         if nation.name==name:
@@ -43,18 +45,21 @@ def findMemberInMembersList(name,membersList):
     for member in membersList:
         if name == member.name:
             return member
+
+# used to see if member is in alist
 def memberInList(name,membersList):
     for member in membersList:
         if name in member.name.split('#')[0]:
             return True
     return False
-
+#used to see if member is in the designated nation
 def memberInNation(member,nationName):
     roles = member.roles
     for role in roles:
         if role.name==nationName:
             return True
     return False
+
 def userNation(member,nationName,nationsList):
     if(memberInNation(member,nationName)):
         for nation in nationsList:
