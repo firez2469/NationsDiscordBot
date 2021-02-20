@@ -184,8 +184,7 @@ async def joinNation(ctx,*,name):
         await ctx.send("Failed to join {0}".format(name))
         
     index1 = s.findNationIndex(name, serversNations[server.name])
-    serversNations[server.name][index1].influence += 1
-    serversNations[server.name][index1].money+=1
+    #serversNations[server.name][index1].influence += 1
     
 
     print('Sucessfully joined')
