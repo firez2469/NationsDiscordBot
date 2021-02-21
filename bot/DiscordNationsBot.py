@@ -310,14 +310,14 @@ async def stats(ctx,*,nationName):
 
 
 
-#@bot.command()
-#async def nations(ctx):
-#    message ="**List of Nations:**\n"
-#    for nation in serversNations[ctx.guild.name]:
-#        if not nation.name == "nonetype1":
-#            message+= "{0}\n".format(nation.name)
-#    await ctx.send(message)
-#    print("List of nations requested by {0}".format(ctx.author.name))
+@bot.command()
+async def nations(ctx):
+    message ="**List of Nations:**\n"
+    for nation in serversNations[ctx.guild.name]:
+        if not nation.name == "nonetype1":
+            message+= "{0}\n".format(nation.name)
+    await ctx.send(message)
+    print("List of nations requested by {0}".format(ctx.author.name))
 #@commands.has_role('National Leader')
 #@bot.command()
 #async def buildArmy(ctx):
